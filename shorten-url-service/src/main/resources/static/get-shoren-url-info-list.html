@@ -5,8 +5,8 @@
     <title>단축 URL 전체 조회</title>
 </head>
 <body>
-<button>단축 URL 전체 조회</button>
-<div id="shorten-url-info-list">
+<button onclick="getShortenUrlInfoList()">단축 URL 전체 조회</button>
+<div id="shorten-url-info-list" >
     <!--단축 url 정보가 나오도록 javascript 로 작성-->
     <!--
     원본 URL :
@@ -24,5 +24,43 @@
     ...
     -->
 </div>
+
+<script>
+
+    function getShortenUrlInfoList() {
+
+        fetch('/shortenUrls', {
+            method: 'GET'
+        })
+            .then(response => {
+                if (response.status === 200) {
+
+                    response.json().then(data => {
+                        let shortenUrlInfoList = '';
+                        const shortenUrlInfoDom = document.querySelector('#shorten-url-info-list');
+
+                        data.forEach(shortenUrlInfo => {
+                            shortenUrlInfoList +=  `
+                            원본 URL : ${shortenUrlInfo.originalUrl}
+                            단축 URL 의 KEY : ${shortenUrlInfo.shortenUrlKey}
+                            사용 횟수 : ${shortenUrlInfo.redirectCount}
+                        `;
+
+                        });
+
+                        shortenUrlInfoDom.innerHTML = shortenUrlInfoList;
+                    });
+                } else {
+                    console.error('request failed');
+                }
+            })
+            .catch(error => {
+                console.error('request failed', error);
+            });
+
+        return false;
+    }
+</script>
+
 </body>
 </html>

@@ -29,9 +29,11 @@
                     // response 의 body 에 있는 값을 가져옴
                     // body 에 있는 값을 shortenUrl-info div 에 뿌려줌
                     response.json().then(data => {
-                        document.querySelector('#shorten-url-info').innerHTML = '원본 URL : ' + data.originalUrl + '<br>' +
-                            '단축 URL 의 KEY : ' + data.shortenUrlKey + '<br>' +
-                            '사용 횟수 : ' + data.count;
+                        document.querySelector('#shorten-url-info').innerHTML = `
+                            원본 URL : ${data.originalUrl}
+                            단축 URL 의 KEY : ${data.shortenUrlKey}
+                            사용 횟수 : ${data.redirectCount}
+                        `
                     });
                 } else {
                     console.error('request failed');
