@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>단축 URL 생성</title>
+</head>
+<body>
+<form onsubmit="return createShortenUrl();">
+    <input type="url" id="url-input" name="url" placeholder="Enter URL">
+    <input type="submit">
+</form>
+<span id="created-shorten-url"><!-- 단축 url 생성된 코드가 들어감 --></span>
+
+<script>
+
+    function createShortenUrl() {
+        const url = document.querySelector('#url-input').value;
+        const requestObject = { originalUrl: url };
+
+        fetch('/shortenUrl', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(requestObject)
+        })
+            .then(response => {
+                if (response.status === 200) {
+                    // response.json() body 에 있는 단축 url 키를 가져와야 함
+                    // span 에 넣어주기
+                    response.json().then(data => {
+                        const shortenUrl = window.location.protocol + '//' + window.location.host + '/' + data.shortenUrlKey;
+                        document.querySelector('#created-shorten-url').innerHTML = shortenUrl;
+                    });
+                    alert("단축 URL 이 생성되었습니다.");
+                } else {
+                    console.error('request failed');
+                }
+            })
+            .catch(error => {
+                console.error('request failed', error);
+            });
+
+        return false;
+    }
+</script>
+
+</body>
+</html>

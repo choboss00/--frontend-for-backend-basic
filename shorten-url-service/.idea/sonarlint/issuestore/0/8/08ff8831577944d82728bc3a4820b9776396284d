@@ -1,0 +1,9 @@
+
+‰
+java:S1488 "sImmediately return this expression instead of assigning it to the temporary variable "shortenUrlCreateResponseDto".(•Ìü˜
+y
+java:S1488-"cImmediately return this expression instead of assigning it to the temporary variable "originalUrl".(Ìó”æ
+‹
+java:S14888"pImmediately return this expression instead of assigning it to the temporary variable "shortenUrlInformationDto".(°ÁÝ£þÿÿÿÿ
+_
+java:S1612B"JReplace this lambda with method reference 'ShortenUrlInformationDto::new'.(ý¨¥{

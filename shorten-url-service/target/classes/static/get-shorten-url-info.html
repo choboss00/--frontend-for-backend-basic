@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>단축 URL 단건 정보 조회</title>
+</head>
+<body>
+<form onsubmit="return getShortenUrlInfo();">
+  <input type="text" id="shorten-url-input" required>
+  <input type="submit">
+  <div id="shorten-url-info">
+    <!--단축 url 정보가 나오도록 javascript 로 작성-->
+    <!-- 원본 URL :
+    단축 URL 의 KEY :
+    사용 횟수 : -->
+  </div>
+</form>
+
+<script>
+
+    function getShortenUrlInfo() {
+        const shortenUrlKey = document.querySelector('#shorten-url-input').value;
+
+        fetch('/shortenUrl/' + shortenUrlKey, {
+            method: 'GET'
+        })
+            .then(response => {
+                if (response.status === 200) {
+                    // response 의 body 에 있는 값을 가져옴
+                    // body 에 있는 값을 shortenUrl-info div 에 뿌려줌
+                    response.json().then(data => {
+                        document.querySelector('#shorten-url-info').innerHTML = '원본 URL : ' + data.originalUrl + '<br>' +
+                            '단축 URL 의 KEY : ' + data.shortenUrlKey + '<br>' +
+                            '사용 횟수 : ' + data.count;
+                    });
+                } else {
+                    console.error('request failed');
+                }
+            })
+            .catch(error => {
+                console.error('request failed', error);
+            });
+
+        return false;
+    }
+</script>
+
+</body>
+</html>
